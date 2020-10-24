@@ -1,0 +1,9 @@
+pipline {
+   stage ('Checkout') {
+      git url: 'https://git-master@bitbucket.org/git-master/db-repo.git', credentialsId: '72440a35-0a71-4c98-a63c-8ae5dbc4599d', branch: 'release/v2020.09-01'
+   }
+
+   stage ('Rollback') {
+      liquibaseUpdate  (changeLogFile: 'lb_migrations/release/dbchangelog.xml', url: 'jdbc:postgresql://185.86.147.143:5432/itlc-fo-release', credentialsId: '72440a35-0a71-4c98-a63c-8ae5dbc4599d', databaseEngine: 'MySQL', rollbackCount: 2)
+   }
+}
